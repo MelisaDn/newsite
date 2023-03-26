@@ -14,8 +14,14 @@ if(isset($_POST['submit'])){
   $contact = $_POST['phone'];
   $specialty = $_POST['specialty'];
 
+  $orig_file = $_FILES["avatar"]["tmp_name"];
+  $ext = pathinfo($_FILES["avatar"]["name"], PATHINFO_EXTENSION);
+  $target_dir = 'uploads/';
+  $destination = "$target_dir$contact.$ext";
+  move_uploaded_file($orig_file, $destination);
+
   //call function to insert and track if success or not
-  $isSuccess = $crud->insertAttendees($fname, $lname, $dob, $email, $contact, $specialty );
+  $isSuccess = $crud->insertAttendees($fname, $lname, $dob, $email, $contact, $specialty, $destination);
 
   if($isSuccess){
     include 'includes/successmessage.php';
@@ -33,7 +39,8 @@ if(isset($_POST['submit'])){
 <div class="card card text-bg-dark mb-3" style="max-width: 540px;">
   <div class="row g-0">
     <div class="col-md-4">
-      <img src="./img/customer.jpg" class="img-fluid rounded-start" alt="...">
+      <img src="<?php echo empty($destination) ?"uploads/Avatar.jpg" : "uploads/Avatar.jpg" ; ?>"
+      class="img-fluid rounded-start" alt="...">
     </div>
     <div class="col-md-8">
       <div class="card-body">

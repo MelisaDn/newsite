@@ -11,13 +11,13 @@ class crud
     }
 
     //function to insert a new record into the newsite database
-    public function insertAttendees($fname, $lname, $dob, $email, $contact, $specialty)
+    public function insertAttendees($fname, $lname, $dob, $email, $contact, $specialty, $avatar_path)
     {
         try {
             //define  sql statement for executed
             $sql = "INSERT INTO newsite ( `firstname`, `lastname`, `dateofbirth`, 
-                `emailaddress`, `contactnumber`, `specialty_id`) 
-                VALUES (:fname, :lname, :dob, :email, :contact , :specialty)";
+                `emailaddress`, `contactnumber`, `specialty_id`, `avatar_path`) 
+                VALUES (:fname, :lname, :dob, :email, :contact , :specialty, :avatar_path)";
 
             //prepare the sql statement for execution
             $stmt = $this->db->prepare($sql);
@@ -29,6 +29,7 @@ class crud
             $stmt->bindparam(':email', $email);
             $stmt->bindparam(':contact', $contact);
             $stmt->bindparam(':specialty', $specialty);
+            $stmt->bindparam(':avatar_path', $avatar_path);
 
             //excute statement
             $stmt->execute();
